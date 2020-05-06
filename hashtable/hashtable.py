@@ -35,10 +35,10 @@ class HashTable:
         """
         DJB2 32-bit hash function
         """
-        hash = 5381
+        hash = 5381 # set default hash number
 
-        for x in key:
-            hash = hash * 33 + ord(x)
+        for x in key: # for each character in the key
+            hash = hash * 33 + ord(x) # add the hash to the unicode for each individual character
         
         return hash
 
@@ -58,8 +58,24 @@ class HashTable:
         Hash collisions should be handled with Linked List Chaining.
         """
         index = self.hash_index(key)
-        self.storage[index] = HashTableEntry(key, value)
+        # self.storage[index] = HashTableEntry(key, value)
+        node = self.storage[index]
+
+        if node is None:
+            self.storage[index] = HashTableEntry(key, value)
+            return
             
+        prev = node
+
+        while node != None and node.key != key:
+            prev = node
+            node = node.next
+
+        if prev.key == key:
+            prev.value = value
+        
+        else:
+            prev.next = HashTableEntry(key, value)
 
 
 
@@ -80,11 +96,21 @@ class HashTable:
         Returns None if the key is not found.
         """
         index = self.hash_index(key)
+        node = self.storage[index]
 
-        if self.storage[index] == None:
+        # if self.storage[index] == None:
+        #     return None
+        # else:
+        #     return self.storage[index].value
+
+        while node != None and node.key != key:
+            node = node.next
+
+        if node is None:
             return None
+
         else:
-            return self.storage[index].value
+            return node.value
 
 
     def resize(self):
