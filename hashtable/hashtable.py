@@ -17,6 +17,19 @@ class HashTable:
     def __init__(self, capacity):
         self.capacity = capacity  # Number of buckets in the hash table
         self.storage = [None] * capacity
+        self.load_factor = 0
+
+    def get_load(self):
+        held = 0
+
+        for node in self.storage:
+            if node:
+                held += 1
+
+        load_factor = held / self.capacity
+
+        return load_factor
+
 
     def fnv1(self, key):
         """
@@ -118,16 +131,18 @@ class HashTable:
         Doubles the capacity of the hash table and
         rehash all key/value pairs.
         """
-        wizened = self.storage
-        self.capacity *= 2
-        self.storage = [None] * self.capacity
+        load_factor = self.get_load()
+        print(f'LOAD FACTOR IN ZE RESIZE: {load_factor}')
 
-        for entry in wizened:
-            if entry == None: 
-                continue
-            else:
-                self.put(entry.key, entry.value)
+        if load_factor > 0.7: 
+            wizened = self.storage
+            self.capacity *= 2
+            self.storage = [None] * self.capacity
 
+            for entry in wizened:
+                while entry:
+                    self.put(entry.key, entry.value)
+                    entry = entry.next
 
 
 if __name__ == "__main__":
