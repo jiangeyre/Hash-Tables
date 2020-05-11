@@ -1,5 +1,18 @@
-def word_count(s):
-    # Implement me.
+def word_count(s, cache=None):
+    cache = {}
+
+    cleanup = map(lambda i : i.strip('":;,.-+=/\\|[]{}()*^&').lower(), s.replace('\r', ' ').replace('\n', ' ').replace('\t', ' ').split(' '))
+
+    for i in cleanup:
+        if i == "":
+            continue
+        if i not in cache:
+            cache[i] = 1
+        else:
+            cache[i] += 1
+
+    print('cache return', cache)
+    return cache
 
 
 if __name__ == "__main__":

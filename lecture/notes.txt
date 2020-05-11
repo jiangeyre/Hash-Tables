@@ -1,0 +1,85 @@
+Hash Tables
+
+- Find stuff
+- Order 1 look ups
+- Find stuff quickling without looping
+- Good for storage that does not care for order.
+
+Caching // you can use a hash table to cache data
+
+Speed of search
+----------------
+Linear search through an array
+Network caching = slow
+Dynamic programming = Memoization = expensive calculation
+
+
+Indexing
+--------
+Alice: 30
+Bob: 40
+Charlie: 20
+Dave: 20
+Beej: 30
+
+"Show me all the people who are age 30."
+
+What do I want to look up by? <-- that is the key
+
+store ages as keys
+30: [Alice, Beej]
+40: [Bob]
+20: [Charlie, Dave]
+
+Given a list of records, need to convert into a hashtable first
+Then we can do quick lookups
+O(n) to create the hash table
+O(1) to look up - SELECT * FROM people WHERE name = 'Beej'
+
+
+Removing Duplicates
+-------------------
+Make a dict with the words as keys, counts as values
+If key/value exists, skip and not enter
+Turn list into a set
+
+h = {}
+
+for i in data:
+    # Have we seen this data before? - Linear search - looping through entire data set
+    if h[i]:    # same as checking for existence in the set
+        continue
+    # We've seen it now:
+    h[i] = True     # same as adding to a set
+
+    print(i)
+
+for i in data: O(n)
+    for j in data: O(n)
+        replace with hash table O(1)
+
+Counting Elements
+-----------------
+h = {}
+for i in data:
+    if i not in h:
+        h[i] = 0
+
+    h[i] += 1
+
+for i in data:
+    if i not in h:
+        h[i] = 1
+    else:
+        h[i] += 1
+
+
+
+ASIDE
+-----
+The key in a dict can be any immutable type, including tuples.
+
+h = {
+    (1,2): "value1",
+    (3,4,5): "value2"
+}
